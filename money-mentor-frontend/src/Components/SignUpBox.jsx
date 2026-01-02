@@ -54,7 +54,7 @@ function SignUpBox() {
                 helperText={confirmPass && !(password === confirmPass) ? "Passwords don't match" : ""}
                 FormHelperTextProps={{
                     sx: { 
-                        color: 'orange',
+                        color: 'red',
                         fontWeight: 'bold'
                     }
                 }}
