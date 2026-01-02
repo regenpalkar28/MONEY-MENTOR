@@ -4,7 +4,6 @@ function Login() {
     
     return (
         <div>
-            <Header/>
             <LoginBox/>
         </div>
     
