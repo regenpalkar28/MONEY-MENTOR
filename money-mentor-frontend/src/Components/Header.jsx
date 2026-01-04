@@ -6,7 +6,7 @@ function Header() {
     return (
         <header >  
             <Toolbar>
-                <Link to="/app">
+                <Link to="/home">
                 <Box
                 component="img"
                 src="/public/Logo-removebg-preview.png"
