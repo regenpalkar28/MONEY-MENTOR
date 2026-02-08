@@ -13,6 +13,7 @@ import BudgetPlanner from './Pages/BudgetPlanner';
 import { Box, ThemeProvider } from "@mui/material";
 import EligibilityLoan from './Pages/Eligibilty_Loan';
 import Dashboard from './Pages/Dashboard';
+import Quiz from './Pages/Quiz';
 import theme from "./theme.js";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
             <Route path="/taxestimator" element = {<TaxEstimator/>} />
             <Route path="/budgetplanner" element = {<BudgetPlanner/>} />
             <Route path="/dashboard" element = {<Dashboard/>} />
+            <Route path="/quiz" element = {<Quiz/>} />
           </Routes>
         
         </Box>

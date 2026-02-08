@@ -185,7 +185,7 @@ function Home() {
                     },
                     {
                         text: 'Quizzes',
-                        link: '/taxestimator'
+                        link: '/quiz'
                     }
                 ]} />
         </Box>
