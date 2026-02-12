@@ -1,28 +1,25 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import quizRouter from "./routes/quizllm.js";
 
-app.use('/api/quizllm', quizRouter);
+// Load env variables
+dotenv.config();
 
-require("dotenv").config();
-const express = require("express");
-const connectDB = require("./config/db");
-const cors = require("cors");
-const path = require("path");
-
+// Connect to DB
 connectDB();
 
 const app = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 app.use(cors());
 app.use(express.json());
-
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use("/api/auth", require("./routes/auth"));
-
-app.use("/api/profile", require("./routes/profileRoutes"));
+app.use('/api/quizllm', quizRouter); 
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
