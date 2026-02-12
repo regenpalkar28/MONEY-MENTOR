@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/generate-quiz', async (req, res) => {
   try {
-    const { topic, numberOfQuestions } = req.body;
+    const { topic, N } = req.body;
 
     const google = createGoogleGenerativeAI({
       apiKey: process.env.GOOGLE_API_KEY,
@@ -20,7 +20,7 @@ router.post('/generate-quiz', async (req, res) => {
           question: z.string(),
           options: z.array(z.string()).length(4),
           correctAnswer: z.number().min(0).max(3),
-        })).length(numberOfQuestions)
+        })).length(N)
       }),
       prompt: `Generate exactly ${N} multiple choice questions about ${topic}. 
       Each question should have 4 options and the correctAnswer should be the index (0-3) of the correct option.

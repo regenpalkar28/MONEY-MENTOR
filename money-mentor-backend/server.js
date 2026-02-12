@@ -1,5 +1,10 @@
-import quizRouter from './routes/quiz.js';
-app.use('/api/quiz', quizRouter);
+import express from "express";
+import cors from "cors";
+import path from "path";
+import connectDB from "./config/db.js";
+import quizRouter from "./routes/quizllm.js";
+
+app.use('/api/quizllm', quizRouter);
 
 require("dotenv").config();
 const express = require("express");
