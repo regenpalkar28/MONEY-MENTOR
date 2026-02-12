@@ -26,17 +26,17 @@ function Quiz() {
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
 
   const topic = "Loans";
-  const numberOfQuestions = 6;
+  const N = 6;
 
   const handleStartQuiz = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/utils', {
+      const response = await fetch('http://localhost:5000/api/quiz/generate-quiz', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ topic, numberOfQuestions }),
+        body: JSON.stringify({ topic, N }),
       });
 
       const questions = await response.json();

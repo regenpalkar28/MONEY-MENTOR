@@ -1,5 +1,5 @@
 import quizRouter from './routes/quiz.js';
-app.use('/api', quizRouter);
+app.use('/api/quiz', quizRouter);
 
 require("dotenv").config();
 const express = require("express");
