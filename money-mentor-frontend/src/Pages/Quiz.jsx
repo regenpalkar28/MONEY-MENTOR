@@ -10,13 +10,14 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Container
+  Container,
+  CircularProgress
 } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 function Quiz() {
-  const quizData = [];
-
+  const [quizData, setQuizData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -24,8 +25,28 @@ function Quiz() {
   const [showScore, setShowScore] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
 
-  const handleStartQuiz = () => {
-    setQuizStarted(true);
+  const topic = "Loans";
+  const numberOfQuestions = 6;
+
+  const handleStartQuiz = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/utils', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ topic, numberOfQuestions }),
+      });
+
+      const questions = await response.json();
+      setQuizData(questions);
+      setQuizStarted(true);
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAnswerClick = (answerIndex) => {
@@ -59,6 +80,7 @@ function Quiz() {
     setShowScore(false);
     setAnsweredQuestions([]);
     setQuizStarted(false);
+    setQuizData([]);
   };
 
   return (
@@ -92,28 +114,19 @@ function Quiz() {
                       <ListItemIcon>
                         <CheckCircleOutlineIcon sx={{ color: 'text.secondary' }} />
                       </ListItemIcon>
-                      <ListItemText 
-                        primary="Multiple choice questions"
-                        sx={{ color: 'text.secondary' }}
-                      />
+                      <ListItemText primary="Multiple choice questions" sx={{ color: 'text.secondary' }} />
                     </ListItem>
                     <ListItem>
                       <ListItemIcon>
                         <CheckCircleOutlineIcon sx={{ color: 'text.secondary' }} />
                       </ListItemIcon>
-                      <ListItemText 
-                        primary="Instant score tracking"
-                        sx={{ color: 'text.secondary' }}
-                      />
+                      <ListItemText primary="Instant score tracking" sx={{ color: 'text.secondary' }} />
                     </ListItem>
                     <ListItem>
                       <ListItemIcon>
                         <CheckCircleOutlineIcon sx={{ color: 'text.secondary' }} />
                       </ListItemIcon>
-                      <ListItemText 
-                        primary="Results at the end"
-                        sx={{ color: 'text.secondary' }}
-                      />
+                      <ListItemText primary="Results at the end" sx={{ color: 'text.secondary' }} />
                     </ListItem>
                   </List>
                 </Card>
@@ -121,18 +134,17 @@ function Quiz() {
                   variant="contained"
                   size="large"
                   onClick={handleStartQuiz}
+                  disabled={loading}
                   sx={{ 
                     px: 6, 
                     py: 1.5, 
                     fontSize: '1.1rem',
                     bgcolor: 'foreground.primary',
                     color: 'text.secondary',
-                    '&:hover': {
-                      bgcolor: 'background.darkPrimary'
-                    }
+                    '&:hover': { bgcolor: 'background.darkPrimary' }
                   }}
                 >
-                  Take Test
+                  {loading ? <CircularProgress size={24} sx={{ color: 'text.secondary' }} /> : 'Take Test'}
                 </Button>
               </Box>
             ) : showScore ? (
@@ -155,9 +167,7 @@ function Quiz() {
                     py: 1.5,
                     bgcolor: 'foreground.primary',
                     color: 'text.secondary',
-                    '&:hover': {
-                      bgcolor: 'background.darkPrimary'
-                    }
+                    '&:hover': { bgcolor: 'background.darkPrimary' }
                   }}
                 >
                   Restart Quiz
@@ -181,9 +191,7 @@ function Quiz() {
                       height: 8, 
                       borderRadius: 4,
                       bgcolor: 'background.tertiary',
-                      '& .MuiLinearProgress-bar': {
-                        bgcolor: 'foreground.primary'
-                      }
+                      '& .MuiLinearProgress-bar': { bgcolor: 'foreground.primary' }
                     }}
                   />
                 </Box>
@@ -232,9 +240,7 @@ function Quiz() {
                   sx={{
                     bgcolor: 'foreground.primary',
                     color: 'text.secondary',
-                    '&:hover': {
-                      bgcolor: 'background.darkPrimary'
-                    },
+                    '&:hover': { bgcolor: 'background.darkPrimary' },
                     '&:disabled': {
                       bgcolor: 'background.tertiary',
                       color: 'text.primary',

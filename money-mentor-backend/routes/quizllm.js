@@ -1,22 +1,27 @@
 import { generateObject } from 'ai';
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { z } from 'zod';
+import express from 'express';
 
-export async function POST(req: Request) {
+const router = express.Router();
+
+router.post('/generate-quiz', async (req, res) => {
   try {
-    const { topic, numberOfQuestions: N } = await req.json();
+    const { topic, numberOfQuestions } = req.body;
+
+    const google = createGoogleGenerativeAI({
+      apiKey: process.env.GOOGLE_API_KEY,
+    });
 
     const { object } = await generateObject({
       model: google('gemini-1.5-flash'),
-      
       schema: z.object({
         questions: z.array(z.object({
           question: z.string(),
           options: z.array(z.string()).length(4),
           correctAnswer: z.number().min(0).max(3),
-        })).length(N)
+        })).length(numberOfQuestions)
       }),
-      
       prompt: `Generate exactly ${N} multiple choice questions about ${topic}. 
       Each question should have 4 options and the correctAnswer should be the index (0-3) of the correct option.
       Make the questions challenging, educational, and professional.
@@ -24,9 +29,11 @@ export async function POST(req: Request) {
       Topics to cover in ${topic}: fundamentals, key concepts, practical applications, and calculations where relevant.`,
     });
 
-    return Response.json(object.questions);
+    res.json(object.questions);
   } catch (error) {
     console.error('Quiz generation error:', error);
-    return Response.json({ error: 'Failed to generate quiz' }, { status: 500 });
+    res.status(500).json({ error: 'Failed to generate quiz' });
   }
-}
+});
+
+export default router;

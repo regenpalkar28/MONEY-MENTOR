@@ -39,6 +39,7 @@ next-env.d.ts
 
 # environment variables
 .env
+.env.*
 .env*.local
 
 # vercel

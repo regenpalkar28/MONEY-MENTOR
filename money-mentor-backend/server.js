@@ -1,3 +1,6 @@
+import quizRouter from './routes/quiz.js';
+app.use('/api', quizRouter);
+
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
