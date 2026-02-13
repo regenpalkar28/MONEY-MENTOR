@@ -6,7 +6,8 @@ import express from 'express';
 const router = express.Router();
 
 router.post('/generate-quiz', async (req, res) => {
-  try {
+    console.log('Route hit, body:', req.body);
+    try {
     const { topic, N } = req.body;
 
     const google = createGoogleGenerativeAI({
@@ -14,7 +15,7 @@ router.post('/generate-quiz', async (req, res) => {
     });
 
     const { object } = await generateObject({
-      model: google('gemini-1.5-flash'),
+      model: google('gemini-2.0-flash'),
       schema: z.object({
         questions: z.array(z.object({
           question: z.string(),
