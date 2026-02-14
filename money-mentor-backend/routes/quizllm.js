@@ -1,8 +1,10 @@
 import { generateObject } from 'ai';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
+// import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createOllama } from 'ollama-ai-provider-v2';
 import { z } from 'zod';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+
 
 const router = express.Router();
 const quizRateLimiter = rateLimit({
@@ -13,17 +15,19 @@ const quizRateLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// const google = createGoogleGenerativeAI({
+//   apiKey: process.env.GOOGLE_API_KEY,
+// });
+const ollama = createOllama();
+
 router.post('/generate-quiz', quizRateLimiter, async (req, res) => {
     console.log('Route hit, body:', req.body);
     try {
       const { topic, N } = req.body;
 
-      const google = createGoogleGenerativeAI({
-        apiKey: process.env.GOOGLE_API_KEY,
-      });
-
       const { object } = await generateObject({
-        model: google('gemini-2.0-flash'),
+        // model: google('gemini-2.0-flash'),
+        model: ollama('llama3.2:1b'),
         maxRetries: 0,
         schema: z.object({
           questions: z.array(z.object({

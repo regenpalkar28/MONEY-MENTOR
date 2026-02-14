@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.26",
-    "ai": "^6.0.82",
+    "ai": "^6.0.86",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
@@ -29,6 +29,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5",
     "multer": "^2.0.2",
+    "ollama-ai-provider-v2": "^3.3.0",
     "path": "^0.12.7",
     "zod": "^4.3.6"
   },
