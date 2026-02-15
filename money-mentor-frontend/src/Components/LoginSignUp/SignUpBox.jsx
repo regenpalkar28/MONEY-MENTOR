@@ -85,7 +85,7 @@ function SignUpBox() {
           Sign Up
         </Typography>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autocomplete="off">
           <TextField
             fullWidth
             label="Username"
