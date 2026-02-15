@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import quizRouter from "./routes/quizllm.js";
+import authRouter from "./routes/auth.js";
 
 // Load env variables
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use('/api/quiz', quizRouter); 
+app.use('/api/auth', authRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
