@@ -1,13 +1,32 @@
 import React, { useState } from "react";
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { 
+  TextField, Button, Box, Typography,
+  Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import CustomDialogBox from './CustomDialogBox';
 
 function SignUpBox() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfPass] = useState("");
   const navigate = useNavigate();
+  const [dialog, setDialog] = useState({ 
+    open: false, 
+    title: "", 
+    message: "", 
+    btnText: "Ok", 
+    onClose: null 
+    });
 
+    const handleDialogClose = () => {
+    const cb = dialog.onClose;
+    setDialog({ open: false, title: "", message: "", onClose: null });
+    if (cb) cb();
+  };
+
+    const showDialog = (title, message, onClose = null) => {
+    setDialog({ open: true, title, message, onClose });
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -21,18 +40,25 @@ function SignUpBox() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.msg || "Signup failed");
+        if (data.msg === "Username already taken") {
+          showDialog("Username already taken", "This username already has an account. Redirecting to login...", () => {
+            navigate("/login");
+          });
+        } else {
+          showDialog("Signup Failed", data.msg || "Signup failed");
+        }
         return;
       }
 
-      alert("Signup successful! Redirecting to login...");
-      setUsername("");
-      setPassword("");
-      setConfPass("");
-      navigate("/login");
+      showDialog("Success", "Signup successful! Redirecting to login...", () => {
+        setUsername("");
+        setPassword("");
+        setConfPass("");
+        navigate("/login");
+      });
     } catch (err) {
       console.error(err);
-      alert("Server not reachable");
+      showDialog("Error", "Server not reachable. Please try again later.");
     }
   };
 
@@ -200,6 +226,13 @@ function SignUpBox() {
           </Button>
         </form>
       </Box>
+      <CustomDialogBox 
+        open={dialog.open} 
+        title={dialog.title}
+        message={dialog.message}
+        btnText={dialog.btnText}
+        onClose={handleDialogClose}
+        />
     </Box>
   );
 }

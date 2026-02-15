@@ -1,12 +1,25 @@
 import React, { useState } from "react";
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { 
+  TextField, Button, Box, Typography,
+ } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import CustomDialogBox from "./CustomDialogBox";
 
 function LoginBox() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [dialog, setDialog] = useState({ open: false, title: "", message: "", btnText: "Ok", onClose: null });
 
+  const handleDialogClose = () => {
+    const cb = dialog.onClose;
+    setDialog({ ...dialog, open: false });
+    if (cb) cb();
+  };
+
+  const showDialog = (title, message, btnText="Ok", onClose = null) => {
+    setDialog({ open: true, title, message, btnText, onClose });
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -20,18 +33,32 @@ function LoginBox() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.msg || "Login failed");
+       if (data.msg === "User not found") {   
+        showDialog(
+          "User not found", 
+          "This username is not associated with any account. You need to Sign-Up first...",
+          "Sign Up",
+           () => {
+              navigate("/signup");
+          });
+        } else {
+          showDialog("Login Failure" ,data.msg || "Check your credentials.");
+        }
         return;
       }
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
 
-      alert("Login successful!");
-      navigate("/dashboard");
+      showDialog("Success", "Logged in successfully! Redirecting to profile...", () => {
+        setUsername("");
+        setPassword("");
+        navigate("/dashboard");
+      });
     } catch (err) {
       console.error(err);
-      alert("Server not reachable");
+      console.error(err);
+      showDialog("Error", "Server not reachable. Please try again later.");
     }
   };
 
@@ -130,13 +157,13 @@ function LoginBox() {
             fullWidth
             sx={{ 
               mt: 3,
-              backgroundColor: "#F4E1C6", // Pale wheat button
-              color: "#5B122D", // Deep pink text
+              backgroundColor: "background.secondary", // Pale wheat button
+              color: "background.primary", // Deep pink text
               fontWeight: 600,
               fontFamily: 'serif',
               '&:hover': {
-                backgroundColor: "#a6757a", // Tertiary color on hover
-                color: "#F4E1C6",
+                backgroundColor: "background.tertiary", // Tertiary color on hover
+                color: "background.secondary",
               },
               '&:disabled': {
                 backgroundColor: "#a6757a",
@@ -150,6 +177,13 @@ function LoginBox() {
           </Button>
         </form>
       </Box>
+      <CustomDialogBox 
+        open={dialog.open} 
+        title={dialog.title}
+        message={dialog.message}
+        btnText={dialog.btnText}
+        onClose={handleDialogClose}
+        />
     </Box>
   );
 }
