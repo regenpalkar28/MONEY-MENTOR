@@ -160,10 +160,6 @@ function Home() {
                     frontText="PLAN"
                     buttons={[
                     {
-                        text: 'Budget Planner',
-                        link: '/budgetplanner'
-                    },
-                    {
                         text: 'Loan Calculator',
                         link: '/loanpage'
                     },
@@ -178,10 +174,6 @@ function Home() {
                     {
                         text: 'Dashboard',
                         link: '/dashboard'
-                    },
-                    {
-                        text: 'Application',
-                        link: '/loanapplication'
                     },
                     {
                         text: 'Quizzes',
