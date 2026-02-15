@@ -91,7 +91,8 @@ function Quiz() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        p: 2
+        p: 2,
+        pt: '120px'
       }}
     >
       <Container maxWidth="md">

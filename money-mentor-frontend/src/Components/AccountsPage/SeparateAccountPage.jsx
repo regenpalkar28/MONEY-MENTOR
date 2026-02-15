@@ -251,7 +251,7 @@ function SeparateAccountPage() {
   }
 
   return (
-    <Box>
+    <Box sx={{pt:'80px'}}>
       <Box
         sx={{
           display: "flex",

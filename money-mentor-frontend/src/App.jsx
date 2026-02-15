@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { ThemeProvider, Box } from '@mui/material';
+import ScrollToTop from './ScrollToTop.jsx';
 import Login from './Pages/Login';
 import SignUp from "./Pages/SignUp";
 import Header from "./Components/Header";
@@ -26,6 +27,7 @@ function App() {
     return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
+      <ScrollToTop />
       <Box id="app-container" sx={{minHeight: "100vh", backgroundColor: 'background.secondary'}}>
       <Header> </Header>
 

@@ -175,7 +175,7 @@ function DocumentsAccount() {
   }));
 
   return (
-    <Box>
+    <Box sx={{pt:'120px'}}>
       <Box
         sx={{
           padding: "40px 70px 40px 70px",

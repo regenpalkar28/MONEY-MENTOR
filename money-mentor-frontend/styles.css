@@ -109,6 +109,7 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding-top: 120px;
 }
 
 .loan-cards {
