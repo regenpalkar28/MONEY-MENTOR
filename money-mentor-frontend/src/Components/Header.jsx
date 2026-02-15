@@ -1,14 +1,49 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { AppBar, Toolbar, Box, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import HomeLogo from "./HomePage/HomeLogo";
+import ProfilePicture from "./Profile/ProfilePicture";
 
 function Header() {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    const [pfp, setPfp] = React.useState(localStorage.getItem('profilePicture'));
 
+    useEffect(() => {
+        const handleSync = () => {
+            setPfp(localStorage.getItem('profilePicture'));
+        };
+
+        window.addEventListener('storage', handleSync);
+        // Also check on a small interval or focus if needed
+        window.addEventListener('focus', handleSync);
+
+        return () => {
+            window.removeEventListener('storage', handleSync);
+            window.removeEventListener('focus', handleSync);
+        };
+    }, []);useEffect(() => {
+    const handleSync = () => {
+        const newPfp = localStorage.getItem('profilePicture');
+        console.log("Header Sync Triggered. New pfp path from storage:", newPfp); // DEBUG LOG
+        setPfp(newPfp);
+    };
+
+    window.addEventListener('storage', handleSync);
+    window.addEventListener('profileUpdate', handleSync);
+    window.addEventListener('focus', handleSync);
+
+    return () => {
+        window.removeEventListener('storage', handleSync);
+        window.removeEventListener('profileUpdate', handleSync);
+        window.removeEventListener('focus', handleSync);
+    };
+}, []);
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('profilePicture'); 
         navigate('/login');
     };
 
@@ -29,6 +64,26 @@ function Header() {
                 <HomeLogo/>
                 <Box sx={{ display: 'flex', gap: 2 }}>
                     {token ? (
+                        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center'}}>
+                         <Box
+                                component={Link}
+                                to="/dashboard"
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    textDecoration: 'none',
+                                    borderRadius: '50%',
+                                    transition: 'opacity 0.2s',
+                                    '&:hover': { opacity: 0.8 },
+                                }}
+                            >
+                                <ProfilePicture
+                                name={username}
+                                src={pfp ? `http://localhost:5000${pfp}` : undefined}
+                                size="48px"
+                                readOnly={true}
+                            />
+                            </Box>
                         <Button
                             onClick={handleLogout}
                             variant="outlined"
@@ -46,6 +101,7 @@ function Header() {
                         >
                             Logout
                         </Button>
+                    </Box>
                     ) : (
                         <>
                             <Button

@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import quizRouter from "./routes/quizllm.js";
 import authRouter from "./routes/auth.js";
-import profileRouter from "./routes/profile.js";
+import profileRouter from "./routes/profileRoutes.js";
 
 // Load env variables
 dotenv.config();

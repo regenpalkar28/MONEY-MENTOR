@@ -42,8 +42,13 @@ function Dashboard() {
                 const data = await res.json();
                 setProfileData(prev => ({
                     ...prev,
-                    ...data
+                    ...data,
+                    name: data.name || data.username || prev.name
                 }));
+                if (data.profilePicture) {
+                    localStorage.setItem('profilePicture', data.profilePicture); 
+                    window.dispatchEvent(new Event("storage")); 
+}
             } catch (err) {
                 console.log("Error fetching profile:", err);
             }
@@ -87,6 +92,9 @@ function Dashboard() {
 
             const data = await res.json();
             setProfileData(prev => ({ ...prev, profilePicture: data.imagePath }));
+            localStorage.setItem('profilePicture', data.imagePath);
+
+            window.dispatchEvent(new Event("storage"));
         } catch (err) {
             console.log("Image upload failed:", err);
         }
@@ -135,7 +143,7 @@ function Dashboard() {
                 }}>
                     <ProfilePicture 
                         name={profileData.name}
-                        src={profileData.profilePicture ? `http://localhost:5000${profileData.profilePicture}` : ""}
+                        src={profileData.profilePicture ? `http://localhost:5000${profileData.profilePicture}` : undefined}
                         onImageChange={handleImageChange}
                     />
                 </Box>
