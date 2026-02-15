@@ -13,12 +13,14 @@ import SeparateAccountPage from './Components/AccountsPage/SeparateAccountPage';
 import CreditScore from './Pages/CreditScore';
 import TaxEstimator from './Pages/TaxEstimator';
 import BudgetPlanner from './Pages/BudgetPlanner';
+import EligibilityAccount from './Pages/Eligibility_Account.jsx';
 import EligibilityLoan from './Pages/Eligibilty_Loan';
 import DocumentsLoan from './Pages/Documents_Loan';
 import DocumentsAccount from './Pages/Documents_Account.jsx';
 import Dashboard from './Pages/Dashboard';
 import Quiz from './Pages/Quiz';
 import theme from "./theme.js";
+import LoanApplication from './Pages/LoanAppplication.jsx';
 
 function App() {
     return (
@@ -37,6 +39,7 @@ function App() {
             <Route path="/loan/documents" element={<DocumentsLoan/>}/>
             <Route path="/loan/:loanType" element={<SeparateLoanPage/>}/>       
             <Route path="/typesofloan" element = {<TypesofLoans/>} />
+            <Route path="/account/eligibility" element={<EligibilityAccount/>}/>
             <Route path="/account/documents" element={<DocumentsAccount/>}/>
             <Route path="/account/:accountType" element={<SeparateAccountPage/>}/>
             <Route path="/typesofaccounts" element = {<TypesofAccounts/>} />
@@ -44,6 +47,8 @@ function App() {
             <Route path="/taxestimator" element = {<TaxEstimator/>} />
             <Route path="/budgetplanner" element = {<BudgetPlanner/>} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+            <Route path="/dashboard" element = {<Dashboard/>} />
+            <Route path="/loanapplication" element = {<LoanApplication/>} />
             <Route path="/quiz" element = {<Quiz/>} />
           </Routes>
         

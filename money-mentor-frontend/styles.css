@@ -184,3 +184,41 @@ header {
   transition: transform 0.3ease, box-shadow 0.3ease;
   box-shadow: 0 4px 6px rgb(0,0,0,0.1);
 }
+
+
+
+.loan-container {
+  max-width: 500px;
+  margin: auto;
+}
+
+.loan-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.loan-buttons button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.loan-buttons .active {
+  background: #1976d2;
+  color: white;
+}
+
+.field {
+  margin-bottom: 12px;
+  transition: opacity 0.3s ease;
+}
+
+.field.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+}

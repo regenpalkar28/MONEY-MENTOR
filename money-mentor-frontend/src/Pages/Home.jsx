@@ -180,8 +180,8 @@ function Home() {
                         link: '/dashboard'
                     },
                     {
-                        text: 'Transaction',
-                        link: '/resources'
+                        text: 'Application',
+                        link: '/loanapplication'
                     },
                     {
                         text: 'Quizzes',

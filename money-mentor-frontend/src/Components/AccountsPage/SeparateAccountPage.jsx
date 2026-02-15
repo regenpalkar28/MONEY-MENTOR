@@ -265,7 +265,7 @@ function SeparateAccountPage() {
         <Box sx={{ display: "flex", flexDirection: "row", gap: 6 }}>
           <Button
             component={Link}
-            to="/EligibilityAccount"
+            to="/account/eligibility"
             variant="contained"
             sx={{
               backgroundColor: "#5B122D",
