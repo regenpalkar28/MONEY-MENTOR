@@ -50,7 +50,7 @@ function LoginBox() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
 
-      showDialog("Success", "Logged in successfully! Redirecting to profile...", () => {
+      showDialog("Success", "Logged in successfully! Redirecting to profile...", "OK", () => {
         setUsername("");
         setPassword("");
         navigate("/dashboard");

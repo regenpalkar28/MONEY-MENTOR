@@ -22,7 +22,9 @@ function Dashboard() {
 
     // ================= FETCH PROFILE =================
     useEffect(() => {
-        if (!username) return;
+        console.log("Current Username from LocalStorage:", username); // Check 1
+        console.log("Current Token from LocalStorage:", token);
+        if (!username || !token) return;
 
         const fetchProfile = async () => {
             try {
@@ -32,8 +34,16 @@ function Dashboard() {
                     }
                 });
 
+                if (!res.ok) {
+                const errorLog = await res.text();
+                console.error("Server Error Page:", errorLog);
+                return;
+                }   
                 const data = await res.json();
-                setProfileData(data);
+                setProfileData(prev => ({
+                    ...prev,
+                    ...data
+                }));
             } catch (err) {
                 console.log("Error fetching profile:", err);
             }
@@ -112,7 +122,7 @@ function Dashboard() {
                 minHeight: '100vh',
                 marginX: 15,
                 position: 'relative',
-                pt: '25vh',
+                pt: '40vh',
                 pb: 4
             }}>
 
@@ -120,7 +130,7 @@ function Dashboard() {
                 <Box sx={{ 
                     position: 'absolute', 
                     left: '50%', 
-                    top:'5vh',
+                    top:'12vh',
                     transform: 'translateX(-50%)' 
                 }}>
                     <ProfilePicture 

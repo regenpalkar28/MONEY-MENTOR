@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import quizRouter from "./routes/quizllm.js";
 import authRouter from "./routes/auth.js";
+import profileRouter from "./routes/profile.js";
 
 // Load env variables
 dotenv.config();
@@ -22,6 +23,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use('/api/quiz', quizRouter); 
 app.use('/api/auth', authRouter);
+app.use('/api/profile', profileRouter);
 
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'production') {

@@ -1,7 +1,7 @@
-const express = require("express");
-const User = require("../models/User");
-const multer = require("multer");
-const path = require("path");
+import express from 'express';
+import User from '../models/User.js';
+import multer from 'multer';
+import path from 'path';
 
 const router = express.Router();
 
@@ -58,4 +58,4 @@ router.post("/:username/upload-photo", upload.single("photo"), async (req, res) 
   }
 });
 
-module.exports = router;
+export default router;
